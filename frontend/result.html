@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Result - Image Analysis and Segmentation Platform</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/jpeg" href="favicon.jpg">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="stylesheet" href="Assets/css/app.css">
+  <style>
+    .result-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    .result-image-section {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .result-image-container {
+      background: #f9fafb;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #e5e7eb;
+    }
+
+    img.result {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      width: 100%;
+    }
+
+    .result-info-section {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .job-metadata {
+      background: #f3f4f6;
+      border-radius: 12px;
+      padding: 20px;
+      border-left: 4px solid #1d4ed8;
+    }
+
+    .metadata-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .metadata-row:last-child {
+      border-bottom: none;
+    }
+
+    .metadata-label {
+      font-weight: 600;
+      color: #374151;
+      font-size: 14px;
+    }
+
+    .metadata-value {
+      color: #1d4ed8;
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    .metrics-section {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 24px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .metrics-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #1d4ed8;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 12px;
+    }
+
+    .metric-item {
+      background: #ffffff;
+      padding: 12px;
+      border-radius: 8px;
+      text-align: center;
+      border: 1px solid #e5e7eb;
+    }
+
+    .metric-label {
+      font-size: 12px;
+      color: #6b7280;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .metric-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1d4ed8;
+    }
+
+    .metric-success {
+      color: #16a34a;
+    }
+
+    .error-message {
+      color: #dc2626;
+      padding: 20px;
+    }
+
+    .image-caption {
+      text-align: center;
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 48px 24px;
+      font-size: 16px;
+      color: #6b7280;
+    }
+
+    .loading-spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid #e5e7eb;
+      border-top-color: #1d4ed8;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .secondary-btn {
+      flex: 1;
+      background: #e5e7eb;
+      color: #374151;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .secondary-btn:hover {
+      background: #d1d5db;
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 968px) {
+      .result-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .metrics-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="nav">
+    <a href="index.html">Upload</a>
+    <a href="jobs.html">Jobs</a>
+    <a href="admin.html">Admin</a>
+  </div>
+
+  <div class="auth-card" id="userLoginCard">
+    <div class="auth-row">
+      <input id="userUsername" class="auth-input" type="text" placeholder="Username" autocomplete="username">
+      <input id="userPassword" class="auth-input" type="password" placeholder="Password" autocomplete="current-password">
+      <button id="userLoginBtn" class="auth-btn" type="button">Sign in</button>
+      <button id="userLogoutBtn" class="auth-btn secondary" type="button" style="display: none;">Sign out</button>
+    </div>
+    <div class="auth-msg" id="userAuthMsg">Sign in to view your uploads and jobs</div>
+  </div>
+
+  <div class="card" id="resultCard">
+    <h2>Analysis Result</h2>
+    <div id="resultContent" class="loading">
+      <div class="loading-spinner"></div>
+      <span>Loading result...</span>
+    </div>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/user.js"></script>
+<script src="js/result.js"></script>
+</body>
+</html>
+
+
+
+

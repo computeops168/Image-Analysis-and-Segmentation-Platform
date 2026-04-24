@@ -1,0 +1,260 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap");
+
+:root {
+  --bg: #f5f7fb;
+  --card: #ffffff;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --accent: #1d4ed8;
+  --accent-dark: #1e40af;
+  --success-bg: #ecfdf3;
+  --success-text: #166534;
+  --warn-bg: #fff7ed;
+  --warn-text: #9a3412;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: "Source Sans 3", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+body {
+  background: var(--bg);
+  min-height: 100vh;
+  margin: 0;
+  padding: 40px 20px;
+  color: var(--text);
+}
+
+.container {
+  max-width: 950px;
+  margin: auto;
+}
+
+.card {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 28px;
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.12);
+}
+
+h1, h2 {
+  margin-top: 0;
+  margin-bottom: 24px;
+  color: #0f172a;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 12px;
+}
+
+button.primary-btn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 18px rgba(29, 78, 216, 0.25);
+}
+
+button.primary-btn:hover {
+  transform: translateY(-1px);
+  background: var(--accent-dark);
+  box-shadow: 0 8px 22px rgba(29, 78, 216, 0.35);
+}
+
+button.primary-btn:active {
+  transform: translateY(0);
+}
+
+button.primary-btn:disabled {
+  background: #d1d5db;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.nav {
+  margin-bottom: 32px;
+  display: flex;
+  gap: 20px;
+  background: var(--card);
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+}
+
+.nav a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-size: 15px;
+}
+
+.nav a:hover {
+  background: var(--accent);
+  color: white;
+  transform: translateX(1px);
+}
+
+/* ---------- upload box ---------- */
+.upload-box {
+  border: 2px dashed var(--accent);
+  border-radius: 16px;
+  padding: 48px 32px;
+  text-align: center;
+  cursor: pointer;
+  background: #f8fafc;
+  transition: all 0.3s ease;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+  min-height: 220px;
+}
+
+.upload-box:hover {
+  background: #f1f5f9;
+  border-color: var(--accent-dark);
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.12);
+  transform: translateY(-1px);
+}
+
+.upload-icon {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  margin-bottom: 10px;
+  color: #334155;
+}
+
+.upload-text {
+  color: var(--muted);
+  font-size: 16px;
+}
+
+.upload-text strong {
+  color: var(--accent);
+  font-size: 18px;
+}
+
+.upload-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+  color: #374151;
+}
+
+.upload-box.has-image .upload-content {
+  display: none;
+}
+/* Secondary button style (used across all pages) */
+.secondary-btn {
+  flex: 1;
+  background: #f1f5f9;
+  color: #1f2937;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.secondary-btn:hover {
+  background: #e2e8f0;
+  transform: translateY(-1px);
+}
+
+/* Status badge styling (used on jobs and result pages) */
+.status-pending {
+  background: var(--warn-bg);
+  color: var(--warn-text);
+}
+
+.status-done {
+  background: var(--success-bg);
+  color: var(--success-text);
+}
+
+.status-queued,
+.status-running {
+  background: #eef2ff;
+  color: #1e40af;
+}
+
+.status-failed {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* User auth card */
+.auth-card {
+  margin-bottom: 18px;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 16px 18px;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  display: grid;
+  gap: 10px;
+}
+
+.auth-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.auth-input {
+  flex: 1 1 180px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  font-size: 14px;
+}
+
+.auth-btn {
+  border: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: #0f172a;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.auth-btn.secondary {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.auth-msg {
+  font-size: 13px;
+  color: #475569;
+}

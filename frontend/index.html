@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Image - Image Analysis and Segmentation Platform</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/jpeg" href="favicon.jpg">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="stylesheet" href="Assets/css/app.css">
+  <style>
+    .upload-section {
+      display: grid;
+      gap: 24px;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    #uploadBtn {
+      flex: 1;
+      min-height: 48px;
+      font-size: 17px;
+    }
+
+    #statusText {
+      padding: 16px 20px;
+      border-radius: 10px;
+      background: #f3f4f6;
+      color: #4b5563;
+      margin-top: 12px;
+      display: none;
+      font-weight: 500;
+      animation: slideDown 0.3s ease;
+    }
+
+    #statusText.show {
+      display: block;
+    }
+
+    #statusText.success {
+      background: #dcfce7;
+      color: #166534;
+      border-left: 4px solid #16a34a;
+    }
+
+    #statusText.error {
+      background: #fee2e2;
+      color: #991b1b;
+      border-left: 4px solid #dc2626;
+    }
+
+    #statusText.info {
+      background: #dbeafe;
+      color: #1e40af;
+      border-left: 4px solid #3b82f6;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .preview-wrapper {
+      display: none;
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .preview-wrapper.show {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .preview-image-display {
+      flex: 1;
+      overflow: hidden;
+      border-radius: 12px;
+      background: #f9fafb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 300px;
+    }
+
+    .preview-image-display img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    .preview-actions {
+      display: flex;
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="nav">
+    <a href="index.html">Upload</a>
+    <a href="jobs.html">Jobs</a>
+    <a href="admin.html">Admin</a>
+  </div>
+
+  <div class="auth-card" id="userLoginCard">
+    <div class="auth-row">
+      <input id="userUsername" class="auth-input" type="text" placeholder="Username" autocomplete="username">
+      <input id="userPassword" class="auth-input" type="password" placeholder="Password" autocomplete="current-password">
+      <button id="userLoginBtn" class="auth-btn" type="button">Sign in</button>
+      <button id="userLogoutBtn" class="auth-btn secondary" type="button" style="display: none;">Sign out</button>
+    </div>
+    <div class="auth-msg" id="userAuthMsg">Sign in to view your uploads and jobs</div>
+  </div>
+
+  <div class="card">
+    <h2>Upload and Analyze Image</h2>
+    
+    <div class="upload-section">
+      <!-- Upload box / preview -->
+      <div class="upload-box" id="uploadBox">
+        <input type="file" id="imageInput" accept="image/*" hidden>
+        
+        <!-- Upload content (shown when no image) -->
+        <div class="upload-content" id="uploadContent">
+          <div class="upload-icon">Image Upload</div>
+          <div class="upload-text">
+            <strong>Click to select an image</strong><br>
+            <span style="font-size: 14px; opacity: 0.8;">Drag and drop, or browse</span>
+          </div>
+        </div>
+
+        <!-- Preview wrapper (shown when image selected) -->
+        <div class="preview-wrapper" id="previewWrapper">
+          <div class="preview-image-display">
+            <img id="previewImage" alt="Preview">
+          </div>
+          <div class="preview-actions">
+            <button type="button" class="secondary-btn" onclick="document.getElementById('imageInput').click()">Change</button>
+            <button type="button" class="secondary-btn" onclick="clearPreview()">Clear</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action -->
+      <div class="button-group">
+        <button id="uploadBtn" class="primary-btn" type="button">Create Job</button>
+      </div>
+      <div class="button-group">
+        <button id="statusBtn" class="secondary-btn" type="button" style="display: none;">Check Status</button>
+      </div>
+
+      <!-- Status message -->
+      <p id="statusText"></p>
+    </div>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/user.js"></script>
+<script src="js/index.js"></script>
+</body>
+</html>
+
+
+
+
+
+

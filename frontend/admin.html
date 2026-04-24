@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Analytics - Image Analysis and Segmentation Platform</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/jpeg" href="favicon.jpg">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="stylesheet" href="Assets/css/app.css">
+  <style>
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 18px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      font-weight: 700;
+    }
+
+    .stat-value {
+      font-size: 22px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .stat-sub {
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    .section-title {
+      margin: 28px 0 12px;
+      font-size: 16px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .status-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .status-row {
+      display: grid;
+      grid-template-columns: 120px 1fr 70px;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      color: #374151;
+    }
+
+    .status-bar {
+      background: #e5e7eb;
+      border-radius: 999px;
+      height: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .status-bar > span {
+      display: block;
+      height: 100%;
+      background: #1d4ed8;
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    .recent-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .recent-item {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .recent-meta {
+      display: grid;
+      gap: 6px;
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    .recent-title {
+      font-weight: 700;
+      color: #111827;
+      font-size: 15px;
+    }
+
+    .status-pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      display: inline-block;
+    }
+
+    .view-btn {
+      background: #1d4ed8;
+      color: #fff;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(29, 78, 216, 0.25);
+    }
+
+    .view-btn:hover {
+      transform: translateY(-1px);
+      background: #1e40af;
+      box-shadow: 0 6px 16px rgba(29, 78, 216, 0.32);
+    }
+
+    .view-btn:disabled {
+      background: #d1d5db;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .admin-actions {
+      margin-top: 20px;
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    .danger-btn {
+      background: #dc2626;
+      color: #fff;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+    }
+
+    .danger-btn:hover {
+      background: #b91c1c;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(220, 38, 38, 0.4);
+    }
+
+    .danger-btn:disabled {
+      background: #d1d5db;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .refresh-pill {
+      background: #eff6ff;
+      color: #1e3a8a;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 28px;
+      color: #6b7280;
+      background: #f9fafb;
+      border-radius: 12px;
+      border: 1px dashed #e5e7eb;
+    }
+
+    .auth-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin: 12px 0 0;
+    }
+
+    .auth-input {
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      padding: 10px 12px;
+      min-width: 170px;
+      font-size: 14px;
+    }
+
+    .auth-btn {
+      background: #1d4ed8;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .auth-btn.secondary {
+      background: #374151;
+    }
+
+    .auth-msg {
+      font-size: 13px;
+      color: #6b7280;
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    .top-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 8px;
+    }
+
+    .user-panel {
+      margin-top: 28px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .user-form {
+      background: #f8fafc;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .user-form-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .user-form-row .auth-input {
+      flex: 1 1 180px;
+    }
+
+    .user-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #374151;
+    }
+
+    .user-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    .user-table th,
+    .user-table td {
+      text-align: left;
+      padding: 10px 8px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .user-table th {
+      font-size: 12px;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .user-pill {
+      background: #e0f2fe;
+      color: #0369a1;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      display: inline-block;
+    }
+
+    .user-actions {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .mini-btn {
+      border: none;
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .mini-btn.danger {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    @media (max-width: 720px) {
+      .status-row {
+        grid-template-columns: 90px 1fr 60px;
+      }
+
+      .recent-item {
+        grid-template-columns: 1fr;
+      }
+
+      .admin-actions {
+        justify-content: stretch;
+      }
+
+      .danger-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="nav">
+    <a href="index.html">Upload</a>
+    <a href="jobs.html">Jobs</a>
+    <a href="admin.html">Admin</a>
+  </div>
+
+  <div class="card" id="loginCard">
+    <h2>Admin Login</h2>
+    <div class="auth-row">
+      <input id="adminUsername" class="auth-input" type="text" placeholder="Admin username" autocomplete="username">
+      <input id="adminPassword" class="auth-input" type="password" placeholder="Admin password" autocomplete="current-password">
+      <button id="loginBtn" class="auth-btn" type="button">Login</button>
+      <span id="authMsg" class="auth-msg">Sign in to access admin analytics</span>
+    </div>
+  </div>
+
+  <div class="card" id="adminCard" style="display: none;">
+    <h2>Admin Analytics</h2>
+    <div class="top-actions">
+      <button id="logoutBtn" class="auth-btn secondary" type="button">Logout</button>
+    </div>
+
+    <div class="refresh-pill" id="lastUpdated">Loading stats...</div>
+
+    <div class="stats-grid" id="statsGrid">
+      <div class="stat-card">
+        <div class="stat-label">Total Jobs</div>
+        <div class="stat-value" id="statTotal">0</div>
+        <div class="stat-sub">All time</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Success Rate</div>
+        <div class="stat-value" id="statSuccess">0%</div>
+        <div class="stat-sub">Done / Total</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Avg Elapsed</div>
+        <div class="stat-value" id="statElapsed">0 ms</div>
+        <div class="stat-sub">Completed jobs</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Avg Blob Count</div>
+        <div class="stat-value" id="statBlobs">0</div>
+        <div class="stat-sub">Completed jobs</div>
+      </div>
+    </div>
+
+    <div class="section-title">Status Breakdown</div>
+    <div class="status-list" id="statusList">
+      <div class="empty-state">No jobs yet</div>
+    </div>
+
+    <div class="section-title">Recent Jobs</div>
+    <div class="recent-list" id="recentList">
+      <div class="empty-state">No recent jobs</div>
+    </div>
+
+    <div class="user-panel">
+      <div class="section-title">User Management</div>
+      <div class="user-form">
+        <div class="user-form-row">
+          <input id="newUsername" class="auth-input" type="text" placeholder="Username" autocomplete="off">
+          <input id="newPassword" class="auth-input" type="password" placeholder="Password" autocomplete="new-password">
+          <button id="createUserBtn" class="auth-btn" type="button">Create User</button>
+        </div>
+        <div class="user-form-row">
+          <label class="user-checkbox">
+            <input id="newIsAdmin" type="checkbox">
+            Admin privileges
+          </label>
+          <span class="auth-msg" id="userFormMsg">Create users for uploads and jobs</span>
+        </div>
+      </div>
+      <div class="recent-list" id="userList">
+        <div class="empty-state">No users yet</div>
+      </div>
+    </div>
+
+    <div class="admin-actions">
+      <button id="clearBtn" class="danger-btn" onclick="confirmClearHistory()">Clear All History</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
+
+
+

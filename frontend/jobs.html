@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jobs - Image Analysis and Segmentation Platform</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/jpeg" href="favicon.jpg">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="stylesheet" href="Assets/css/app.css">
+  <style>
+    .jobs-container {
+      display: grid;
+      gap: 16px;
+    }
+
+    .job-card {
+      background: #f8fafc;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 20px;
+      transition: all 0.3s ease;
+      border-left: 4px solid #1d4ed8;
+    }
+
+    .job-card:hover {
+      background: #ffffff;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+      border-left-color: #1e40af;
+    }
+
+    .job-info {
+      display: grid;
+      gap: 8px;
+    }
+
+    .job-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .job-id {
+      font-weight: 700;
+      color: #111827;
+      font-size: 16px;
+    }
+
+    .job-status {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    .job-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    .detail-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .detail-label {
+      font-weight: 600;
+      color: #374151;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .detail-value {
+      color: #111827;
+      font-weight: 500;
+    }
+
+    .job-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 140px;
+    }
+
+    .view-btn {
+      background: #1d4ed8;
+      color: #fff;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(29, 78, 216, 0.25);
+    }
+
+    .view-btn:hover {
+      transform: translateY(-1px);
+      background: #1e40af;
+      box-shadow: 0 6px 16px rgba(29, 78, 216, 0.32);
+    }
+
+    .view-btn:disabled {
+      background: #d1d5db;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 48px 24px;
+      color: #6b7280;
+    }
+
+    .empty-state-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+
+    .empty-state-text {
+      font-size: 16px;
+      margin-bottom: 6px;
+    }
+
+    .empty-state-subtext {
+      font-size: 14px;
+      color: #9ca3af;
+    }
+
+    .refresh-info {
+      background: #eff6ff;
+      color: #1e3a8a;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      text-align: center;
+      margin-bottom: 16px;
+      border-left: 4px solid #1d4ed8;
+    }
+
+    @media (max-width: 768px) {
+      .job-card {
+        grid-template-columns: 1fr;
+      }
+
+      .job-actions {
+        flex-direction: row;
+        min-width: auto;
+      }
+
+      .job-details {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .admin-actions {
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 2px solid #e5e7eb;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .danger-btn {
+      background: #dc2626;
+      color: #fff;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+    }
+
+    .danger-btn:hover {
+      background: #b91c1c;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(220, 38, 38, 0.4);
+    }
+
+    .danger-btn:disabled {
+      background: #d1d5db;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="nav">
+    <a href="index.html">Upload</a>
+    <a href="jobs.html">Jobs</a>
+    <a href="admin.html">Admin</a>
+  </div>
+
+  <div class="auth-card" id="userLoginCard">
+    <div class="auth-row">
+      <input id="userUsername" class="auth-input" type="text" placeholder="Username" autocomplete="username">
+      <input id="userPassword" class="auth-input" type="password" placeholder="Password" autocomplete="current-password">
+      <button id="userLoginBtn" class="auth-btn" type="button">Sign in</button>
+      <button id="userLogoutBtn" class="auth-btn secondary" type="button" style="display: none;">Sign out</button>
+    </div>
+    <div class="auth-msg" id="userAuthMsg">Sign in to view your uploads and jobs</div>
+  </div>
+
+  <div class="card">
+    <h2>Analysis Jobs</h2>
+    
+    <div class="refresh-info">Auto-refreshing every second...</div>
+    
+    <div class="jobs-container" id="jobsContainer">
+      <div class="empty-state">
+        <div class="empty-state-text">No jobs yet</div>
+        <div class="empty-state-subtext">Upload an image to get started</div>
+      </div>
+    </div>
+
+    <div class="admin-actions">
+      <button id="clearBtn" class="danger-btn" onclick="confirmClearHistory()">Clear All History</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/user.js"></script>
+<script src="js/jobs.js"></script>
+</body>
+</html>
+
+
+
+
+

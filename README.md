@@ -1,6 +1,6 @@
 # Image Analysis and Segmentation Platform
 
-Image Analysis and Segmentation Platform is a FastAPI-based image upload and analysis app with a browser frontend, background job processing, per-user access control, and automatic segmentation outputs generated at upload time.
+This program is a FastAPI-based image upload and analysis app with a browser frontend, background job processing, per-user access control, and automatic segmentation outputs generated at upload time.
 
 The app serves the frontend and API from the same FastAPI server, stores metadata in SQLite, saves files on disk, and exposes admin tools for analytics and user management.
 
@@ -8,7 +8,7 @@ The app serves the frontend and API from the same FastAPI server, stores metadat
 
 This project was built to demonstrate end-to-end engineering across frontend workflow design, backend API development, secure file handling, user and admin authentication, and lightweight computer vision. Instead of stopping at a prototype, it grew into a more complete platform that shows how interface design, storage, background processing, access control, and segmentation features can work together in one system.
 
-## Resume-Style Highlights
+## Skill Highlights
 
 - Built a full-stack FastAPI and vanilla JavaScript workflow for image upload, job creation, result tracking, and admin operations
 - Added authentication, role-based access control, and ownership-aware file and job permissions for admin and regular users
